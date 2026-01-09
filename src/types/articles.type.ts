@@ -1,0 +1,24 @@
+import {CommentType} from "./comments.type";
+
+export type ArticlesType = {
+  id: string,
+  title: string,
+  description: string,
+  image: string,
+  date: string,
+  category: string,
+  url: string
+}
+
+export type ArticleType = {
+  text: string,
+  comments: CommentType[],
+  commentsCount: number,
+  id: string,
+  title: string,
+  description: string,
+  image: string,
+  date: string,
+  category: string,
+  url: string
+}
