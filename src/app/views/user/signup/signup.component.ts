@@ -14,7 +14,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class SignupComponent implements OnInit {
 
-  hidePassword = true;
+  hidePassword: boolean = true;
 
   showPassword(): void {
     this.hidePassword = false;

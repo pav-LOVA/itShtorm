@@ -5,6 +5,7 @@ import {UserService} from "../../services/user.service";
 import {DefaultResponseType} from "../../../../types/default-response.type";
 import {UserInfoType} from "../../../../types/user-info.type";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ScrollService} from "../../services/scroll.service";
 
 @Component({
   selector: 'app-header',
@@ -13,10 +14,10 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class HeaderComponent implements OnInit {
 
-  isLogged = false;
-  userName = '';
+  isLogged: boolean = false;
+  userName: string = '';
 
-  isMenuOpen = false;
+  isMenuOpen: boolean = false;
 
   activeFragment: string | null = null;
 
@@ -26,10 +27,17 @@ export class HeaderComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private scrollService: ScrollService,
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.fragment.subscribe(fragment => {
+      if (fragment) {
+        this.activeFragment = fragment;
+      }
+    });
+
+    this.scrollService.scroll$.subscribe(fragment => {
       this.activeFragment = fragment;
     });
 
@@ -46,6 +54,16 @@ export class HeaderComponent implements OnInit {
     const token = this.authService.getTokens().accessToken;
     if (token) {
       this.loadUserInfo();
+    }
+  }
+
+  scrollToFragment(fragment: string) {
+    if (this.router.url === '/' || this.router.url.startsWith('/#')) {
+      this.scrollService.scrollTo(fragment);
+    } else {
+      this.router.navigate(['/'], { fragment }).then(() => {
+        this.scrollService.scrollTo(fragment);
+      });
     }
   }
 

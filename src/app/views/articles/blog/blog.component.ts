@@ -19,7 +19,7 @@ export class BlogComponent implements OnInit {
   articles: ArticlesType[] = [];
   activeParams: ActiveParamsType = {categories: []};
   appliedFilters: AppliedFilterType[] = [];
-  sortingOpen = false;
+  sortingOpen: boolean = false;
   sortingOptions: CategoryType[] = [];
   pages: number[] = [];
 
@@ -66,7 +66,8 @@ export class BlogComponent implements OnInit {
     });
   }
 
-  toggleSorting() {
+  toggleSorting(event: Event) {
+    event.stopPropagation();
     this.sortingOpen = !this.sortingOpen;
   }
 
@@ -120,5 +121,14 @@ export class BlogComponent implements OnInit {
       this.sortingOpen = false;
     }
   }
+
+
+  // @HostListener('document:click', ['$event'])
+  // clickOutside(event: Event) {
+  //   const target = event.target as HTMLElement;
+  //   if (this.sortingOpen && !target.closest('.blog-sorting')) {
+  //     this.sortingOpen = false;
+  //   }
+  // }
 
 }

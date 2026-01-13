@@ -9,11 +9,11 @@ import {FormBuilder, Validators} from "@angular/forms";
 })
 export class PopupComponent implements OnInit {
 
-  isSubmitted = false;
+  isSubmitted: boolean = false;
 
   consultationForm = this.fb.group({
     name: ['', Validators.required],
-    phone: ['', [Validators.required,]],
+    phone: ['', Validators.required],
   });
 
   constructor( private fb: FormBuilder,

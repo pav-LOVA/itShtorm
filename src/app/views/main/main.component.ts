@@ -1,14 +1,14 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {OwlOptions} from "ngx-owl-carousel-o";
 import {ArticlesType} from "../../../types/articles.type";
 import {ArticleService} from "../../shared/services/articles.service";
 import {environment} from "../../../environments/environment";
 import {FormBuilder, Validators} from "@angular/forms";
-import {MatDialogRef} from "@angular/material/dialog";
-import {PopupComponent} from "../../shared/components/popup/popup.component";
 import {UserService} from "../../shared/services/user.service";
 import {CategoryType} from "../../../types/categories.type";
-import {DefaultResponseType} from "../../../types/default-response.type";
+import { CarouselComponent } from 'ngx-owl-carousel-o';
+import {ActivatedRoute} from "@angular/router";
+import {ScrollService} from "../../shared/services/scroll.service";
 
 
 @Component({
@@ -144,6 +144,17 @@ export class MainComponent implements OnInit {
     },
   ]
 
+  @ViewChild('carousel', { static: false })
+  carousel!: CarouselComponent;
+
+  next() {
+    this.carousel.next();
+  }
+
+  prev() {
+    this.carousel.prev();
+  }
+
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -162,6 +173,8 @@ export class MainComponent implements OnInit {
       }
     },
     nav: false,
+    autoplay: true,
+    autoplayTimeout: 5000,
   }
 
   customOptionsReviews: OwlOptions = {
@@ -190,10 +203,10 @@ export class MainComponent implements OnInit {
   articles: ArticlesType[] = [];
   categories: CategoryType[] = [];
 
-  isSubmitted = false;
-  popupVisible = false;
-  serverError = false;
-  dropdownOpen = false;
+  isSubmitted: boolean = false;
+  popupVisible: boolean = false;
+  serverError: boolean = false;
+  dropdownOpen: boolean = false;
   selectedOption: string | null = null;
 
   serverStaticPath = environment.serverStaticPath;
@@ -206,10 +219,32 @@ export class MainComponent implements OnInit {
 
   constructor(private articlesService: ArticleService,
               private userService: UserService,
+              private activatedRoute: ActivatedRoute,
+              private scrollService: ScrollService,
               private fb: FormBuilder,) {
   }
 
   ngOnInit() {
+    this.scrollService.scroll$.subscribe(fragment => {
+      setTimeout(() => {
+        const el = document.getElementById(fragment);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    });
+
+    this.activatedRoute.fragment.subscribe(fragment => {
+      if (fragment) {
+        setTimeout(() => {
+          const el = document.getElementById(fragment);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+      }
+    });
+
     this.loadCategories();
     this.articlesService.getPopularArticles()
       .subscribe((data: ArticlesType[]) => {

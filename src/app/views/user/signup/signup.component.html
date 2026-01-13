@@ -8,22 +8,26 @@
       <div class="auth-inputs">
         <div class="auth-input">
           <input type="text" class="input" placeholder="Ваше имя" formControlName="name"
-                 [ngStyle]="{'border-color': signupForm.get('email')?.invalid && (signupForm.get('email')?.dirty || signupForm.get('email')?.touched) ? 'red' : ''}">
+                 [ngStyle]="{'border-color': signupForm.get('name')?.invalid && (signupForm.get('name')?.dirty || signupForm.get('name')?.touched) ? 'red' : ''}">
+          <div class="error-msg" *ngIf="(signupForm.get('name')?.invalid && (signupForm.get('name')?.dirty || signupForm.get('name')?.touched))">*только кириллица и начало слова с большой буквы<br>*поле обязательно для заполнения</div>
         </div>
         <div class="auth-input">
           <input type="text" class="input" placeholder="Электронная почта" formControlName="email"
                  [ngStyle]="{'border-color': signupForm.get('email')?.invalid && (signupForm.get('email')?.dirty || signupForm.get('email')?.touched) ? 'red' : ''}">
+          <div class="error-msg" *ngIf="(signupForm.get('email')?.invalid && (signupForm.get('email')?.dirty || signupForm.get('email')?.touched))">*некорректный email<br>*поле обязательно для заполнения</div>
         </div>
         <div class="auth-input">
           <input [type]="hidePassword ? 'password' : 'text'" class="input" placeholder="Пароль" formControlName="password"
                  [ngStyle]="{'border-color': signupForm.get('password')?.invalid && (signupForm.get('password')?.dirty || signupForm.get('password')?.touched) ? 'red' : ''}"
                  (mousedown)="showPassword()" (mouseup)="hidePasswordField()" (mouseleave)="hidePasswordField()"
                  (touchstart)="showPassword()" (touchend)="hidePasswordField()">
+          <div class="error-msg" *ngIf="(signupForm.get('password')?.invalid && (signupForm.get('password')?.dirty || signupForm.get('password')?.touched))">*пароль должен содержать не менее одной цифры и одной буквы в верхнем регистре<br>*поле обязательно для заполнения</div>
         </div>
         <div class="auth-checkbox">
           <input type="checkbox" class="custom-checkbox" id="agree" formControlName="agree">
           <label for="agree">Я принимаю <a href="/documents#user-agreement" target="_blank" rel="noopener">условия пользовательского соглашения</a> и даю <a href="/documents#personal-data" target="_blank" rel="noopener">согласие на обработку персональных данных.</a></label>
         </div>
+        <div class="error-msg" *ngIf="(signupForm.get('agree')?.invalid && (signupForm.get('agree')?.dirty || signupForm.get('agree')?.touched))">*поле обязательно для заполнения</div>
       </div>
       <div class="auth-action">
         <button class="btn" [disabled]="signupForm.invalid" (click)="signup()">Зарегистрироваться</button>

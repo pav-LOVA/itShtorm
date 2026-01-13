@@ -7,9 +7,11 @@
     <form *ngIf="!isSubmitted" (ngSubmit)="submitForm()" [formGroup]="consultationForm">
       <input type="text" class="input" placeholder="Ваше имя" formControlName="name"
              [ngStyle]="{'border-color': consultationForm.get('name')?.invalid && (consultationForm.get('name')?.dirty || consultationForm.get('name')?.touched) ? 'red' : ''}">
+      <div class="error-msg" *ngIf="(consultationForm.get('name')?.invalid && (consultationForm.get('name')?.dirty || consultationForm.get('name')?.touched))">*поле обязательно для заполнения</div>
       <input type="text" class="input" placeholder="Ваш номер телефона" formControlName="phone"
              prefix="+7 " mask="(000) 000-00-00" [showMaskTyped]="true" [dropSpecialCharacters]="true"
              [ngStyle]="{'border-color': consultationForm.get('phone')?.invalid && (consultationForm.get('phone')?.dirty || consultationForm.get('phone')?.touched) ? 'red' : ''}">
+      <div class="error-msg" *ngIf="(consultationForm.get('phone')?.invalid && (consultationForm.get('phone')?.dirty || consultationForm.get('phone')?.touched))">*поле обязательно для заполнения</div>
       <button class="btn" type="submit">Заказать консультацию</button>
     </form>
 

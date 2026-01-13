@@ -54,8 +54,10 @@
     }
 
     .header-profile {
+      width: 160px;
       display: flex;
       align-items: center;
+      justify-content: flex-end;
 
       svg {
         margin-right: 7px;

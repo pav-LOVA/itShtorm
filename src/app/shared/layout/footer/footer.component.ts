@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {PopupComponent} from "../../components/popup/popup.component";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ScrollService} from "../../services/scroll.service";
 
 @Component({
   selector: 'app-footer',
@@ -13,12 +14,31 @@ export class FooterComponent implements OnInit {
   activeFragment: string | null = null;
 
   constructor(private dialog: MatDialog,
-              private activatedRoute: ActivatedRoute,) { }
+              private activatedRoute: ActivatedRoute,
+              private router: Router,
+              private scrollService: ScrollService,
+  ) { }
 
   ngOnInit(): void {
     this.activatedRoute.fragment.subscribe(fragment => {
+      if (fragment) {
+        this.activeFragment = fragment;
+      }
+    });
+
+    this.scrollService.scroll$.subscribe(fragment => {
       this.activeFragment = fragment;
     });
+  }
+
+  scrollToFragment(fragment: string) {
+    if (this.router.url === '/' || this.router.url.startsWith('/#')) {
+      this.scrollService.scrollTo(fragment);
+    } else {
+      this.router.navigate(['/'], { fragment }).then(() => {
+        this.scrollService.scrollTo(fragment);
+      });
+    }
   }
 
   openPopup(): void {

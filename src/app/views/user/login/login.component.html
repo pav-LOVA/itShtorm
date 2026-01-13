@@ -9,12 +9,14 @@
         <div class="auth-input">
           <input type="text" class="input" placeholder="Электронная почта" formControlName="email"
                  [ngStyle]="{'border-color': loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched) ? 'red' : ''}">
+          <div class="error-msg" *ngIf="(loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched))">*поле обязательно для заполнения</div>
         </div>
         <div class="auth-input">
           <input [type]="hidePassword ? 'password' : 'text'" class="input" placeholder="Пароль" formControlName="password"
                  [ngStyle]="{'border-color': loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched) ? 'red' : ''}"
                  (mousedown)="showPassword()" (mouseup)="hidePasswordField()" (mouseleave)="hidePasswordField()"
                  (touchstart)="showPassword()" (touchend)="hidePasswordField()">
+          <div class="error-msg" *ngIf="(loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched))">*поле обязательно для заполнения</div>
         </div>
         <div class="auth-checkbox">
           <input type="checkbox" id="remember" formControlName="rememberMe">

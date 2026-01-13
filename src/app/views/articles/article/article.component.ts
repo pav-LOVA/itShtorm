@@ -14,11 +14,11 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class ArticleComponent implements OnInit {
 
-  isLogged = false;
-  moreComments = false;
-  commentText = '';
+  isLogged: boolean = false;
+  moreComments: boolean = false;
+  commentText: string = '';
   // comments: CommentsType | null = null;
-  allCommentsCount = 0;
+  allCommentsCount: number = 0;
   comments: CommentType[] = [];
   articles: ArticlesType[] = [];
   article: ArticleType | undefined;
